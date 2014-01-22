@@ -12,12 +12,32 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+import json
+import sys
+secret_file = os.path.expanduser('~/.django_secrets.json')
+
+if not os.path.isfile(secret_file):
+    old_umask = os.umask(0077)
+    try:
+        with open(secret_file, 'w') as secrets:
+            import string
+            from random import choice
+            secret_key = ''.join([choice(
+                    string.letters + string.digits + string.punctuation)
+                    for i in range(50)])
+            json.dump({'SECRET_KEY': secret_key}, secrets, indent=2)
+            secrets.write('\n')
+    finally:
+        os.umask(old_umask)
+
+with open(secret_file) as secrets:
+    stuff = json.load(secrets)
+    for k, v in stuff.items():
+        # json returns unicode objects, but module definitions are strs.
+        setattr(sys.modules[__name__], k.encode('UTF-8'), v.encode('UTF-8'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'b-fpbv45p!%qbb4@t*#2r4l#m#@=6py(0%bo*c5@495e=zd-i+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
