@@ -49,8 +49,7 @@ DEBUG = not PRODUCTION
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = [DOMAIN]
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
