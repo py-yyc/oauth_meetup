@@ -60,7 +60,15 @@ and a database.
 
         $ easy_install pip mercurial
 
- 5. Push your code to the server.
+ 5. Set up the mysql configuration file:
+
+        (umask 0077 && echo '[client]
+        password="password"
+        host="mysql.example.org"
+        user="username"
+        database="database_name"' > ~/.my.cnf)
+
+ 6. Push your code to the server.
 
     On the server:
 
@@ -75,9 +83,9 @@ and a database.
 
     and run `hg push`.
 
- 6. Now run `./manage.py deploy` and you’re good to go!
+ 7. Now run `./manage.py deploy` and you’re good to go!
 
- 7. To add a superuser on the server, run
+ 8. To add a superuser on the server, run
 
         ssh -t newhost.example.org newhost.example.org/code/manage.py createsuperuser
 
@@ -89,10 +97,6 @@ and a database.
 Run `./manage.py deploy`. That’s it!
 
 ## Next steps
-
-  - Use MySQL in production
-
-  - Set up email
 
   - Pingdom
 
