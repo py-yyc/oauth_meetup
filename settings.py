@@ -14,6 +14,9 @@ BASE_DIR = os.path.dirname(__file__)
 
 DOMAIN = 'polls.subjoin.net'
 
+import socket
+PRODUCTION = socket.getfqdn(socket.gethostname()).endswith('dreamhost.com')
+
 import json
 import sys
 secret_file = os.path.expanduser('~/.django_secrets.json')
@@ -42,11 +45,11 @@ with open(secret_file) as secrets:
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not PRODUCTION
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [DOMAIN]
 
 
 # Application definition
@@ -104,3 +107,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+if PRODUCTION:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
