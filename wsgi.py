@@ -11,8 +11,6 @@ if sys.version < "2.7":
   python = os.path.join(os.environ['HOME'], 'local', 'bin', 'python2.7')
   os.execl(python, python, *sys.argv)
 
-stdout_log = open(os.path.join(os.getcwd(), 'output.log'), 'a')
-os.dup2(stdout_log.fileno(), 1)
 stderr_log = open(os.path.join(os.getcwd(), 'error.log'), 'a')
 os.dup2(stderr_log.fileno(), 2)
 
