@@ -1,6 +1,0 @@
-syntax: glob
-
-db.sqlite3
-README.html
-todo.txt
-notes.txt

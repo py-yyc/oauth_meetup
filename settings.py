@@ -22,7 +22,7 @@ import sys
 secret_file = os.path.expanduser('~/.django_secrets.json')
 
 if not os.path.isfile(secret_file):
-    old_umask = os.umask(0077)
+    old_umask = os.umask(0o077)
     try:
         with open(secret_file, 'w') as secrets:
             import string
@@ -38,8 +38,7 @@ if not os.path.isfile(secret_file):
 with open(secret_file) as secrets:
     stuff = json.load(secrets)
     for k, v in stuff.items():
-        # json returns unicode objects, but module definitions are strs.
-        setattr(sys.modules[__name__], k.encode('UTF-8'), v.encode('UTF-8'))
+        setattr(sys.modules[__name__], k, v)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -64,7 +63,7 @@ INSTALLED_APPS = (
     'polls',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -72,6 +71,22 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 ROOT_URLCONF = 'urls'
 

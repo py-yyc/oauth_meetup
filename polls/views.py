@@ -2,17 +2,16 @@
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+from django.urls import reverse
 
 from polls.models import Poll, Choice
 
 def index(request):
     latest_poll_list = Poll.objects.order_by('-pub_date')
-    context = RequestContext(request, {
+    return render(request, 'polls/index.html',  {
         'latest_poll_list': latest_poll_list,
     })
-    return render(request, 'polls/index.html', context)
 
 def detail(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
