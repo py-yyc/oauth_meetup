@@ -1,2 +1,4 @@
 *.bak
 *.sqlite3
+.*secrets*.json
+/files/

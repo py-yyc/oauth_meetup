@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Poll, Choice
+from polls.models import Poll, Choice
 
 class BasicPollsTests(TestCase):
     def setup_poll1(self):

@@ -6,9 +6,10 @@ name = "pypi"
 [packages]
 django = "*"
 mysqlclient = "*"
+responses = "*"
+requests = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.7"
-

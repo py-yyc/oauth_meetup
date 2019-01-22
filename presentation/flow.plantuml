@@ -1,0 +1,24 @@
+@startuml
+
+actor user
+user -> app: log in with oauth
+app -> browser: go to oauth server\n • client_id\n • redirect_uri
+activate "oauth server"
+browser-> "oauth server": GET /authorize\n  • client_id\n • redirect_uri
+"oauth server" -> user: ok?
+user -> "oauth server": "ok"
+"oauth server" -> browser: go to app\n • code
+deactivate "oauth server"
+browser -> app: redirect_uri?code
+
+app -> "oauth server": POST /access\n • client_secret\n • code
+"oauth server" -> app: access_token
+
+@enduml
+
+@startuml
+
+app -> "oauth server": do something as user\n • access_token
+"oauth server" -> app: "ok"
+
+@enduml

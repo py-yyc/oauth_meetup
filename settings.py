@@ -19,26 +19,29 @@ PRODUCTION = socket.getfqdn(socket.gethostname()).endswith('dreamhost.com')
 
 import json
 import sys
-secret_file = os.path.expanduser('~/.django_secrets.json')
+secret_file = '.django_secrets.json'
 
 if not os.path.isfile(secret_file):
     old_umask = os.umask(0o077)
     try:
-        with open(secret_file, 'w') as secrets:
-            import string
-            from random import choice
-            secret_key = ''.join([choice(
-                    string.letters + string.digits + string.punctuation)
-                    for i in range(50)])
-            json.dump({'SECRET_KEY': secret_key}, secrets, indent=2)
-            secrets.write('\n')
+        with open(secret_file, 'w') as f:
+            f.write('{}\n')
     finally:
         os.umask(old_umask)
 
-with open(secret_file) as secrets:
-    stuff = json.load(secrets)
-    for k, v in stuff.items():
-        setattr(sys.modules[__name__], k, v)
+with open(secret_file, 'r') as f:
+    secrets = json.loads(f.read())
+if 'SECRET_KEY' not in secrets:
+    import string
+    from random import choice
+    secret_key = ''.join([choice(
+        string.ascii_letters + string.digits + string.punctuation)
+        for i in range(50)])
+    secrets['SECRET_KEY'] = secret_key
+    with open(secret_file, 'w') as f:
+        f.write(json.dumps(secrets, indent=2) + '\n')
+for k, v in secrets.items():
+    setattr(sys.modules[__name__], k, v)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -61,6 +64,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'polls',
+    'oauth_meetup',
 )
 
 MIDDLEWARE = (

@@ -10,7 +10,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="/polls/">Polls</a>
+    <a class="navbar-brand" href="/polls">Polls</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,19 +19,28 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item nav-link disabled">
                 {% if request.user.is_authenticated %}
-                Hello, {{ request.user }}!
+                    Hello, {{ request.user.first_name }}!
                 {% else %}
-                Not logged in.
+                    Not logged in.
                 {% endif %}
-            </li>
-            <li class="nav-item nav-link">
                 {% if request.user.is_authenticated %}
-                    <!-- FIXME: should use reverse here -->
-                    <a href="/admin/logout/?next=/polls/">Log out</a>
+                    {% if request.user.is_staff %}
+                        <li class="nav-item nav-link">
+                            <a href="/admin/">Admin</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item nav-link">
+                        <!-- FIXME: should use reverse here -->
+                        <a href="/logout/?next=/polls/">Log out</a>
+                    </li>
                 {% else %}
-                    <a href="/admin/login/?next=/polls/">Login as admin</a>
+                    <li class="nav-item nav-link">
+                        <a href="/admin/login/?next=/polls/">Login as admin</a>
+                    </li>
+                    <li class="nav-item nav-link">
+                        <a href="/oauth/login">Login with oauth</a>
+                    </li>
                 {% endif %}
-            </li>
         </ul>
     </div>
 </nav>
