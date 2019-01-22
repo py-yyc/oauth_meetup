@@ -1,0 +1,46 @@
+# Walkthrough
+
+# How oauth works
+
+# The code
+
+# Demo again
+
+# Summary
+
+Instructions:
+    go to meetup.com
+    run migrate
+    add MEETUP_CLIENT_ID and MEETUP_CLIENT_SECRET to .django_secrets.json
+
+https://www.meetup.com/meetup_api/auth/
+
+https://secure.meetup.com/meetup_api/oauth_consumers/
+
+https://www.meetup.com/meetup_api/auth/#oauth2server
+
+https://www.meetup.com/account/oauth_apps/
+
+    log out is supposed to invalidate the token, but doesn’t seem to
+
+    also no visual indication of scope
+    but maybe that’s because I’m already authorized
+    and/or own the app?
+
+Google [django oauth]
+https://github.com/jazzband/django-oauth-toolkit/pulse
+992 commits, latest 9 days ago
+
+Things that make this work:
+    redirect-uri checking
+
+# Enhancements
+
+  - generate a random token, include as `state` in /authorize request
+
+# Trade-offs
+
+  - New sites learn more about you, because they can learn about everything
+    you’ve ever done from the old site
+  - Existing sites learn more about you, from knowing what other sites you
+    sign in to

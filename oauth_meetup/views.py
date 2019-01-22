@@ -35,7 +35,7 @@ def oauth(request):
     user_info = lookup_self_response.json()
     print(user_info)
 
-    # TODO: save user data in new DB model
+    # TODO: save detailed user data in new model with foreign key to User
     try:
         user = User.objects.get(username=f"{user_info['id']}@meetup.com")
     except User.DoesNotExist:
