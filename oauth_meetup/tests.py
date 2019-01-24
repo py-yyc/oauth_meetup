@@ -69,7 +69,7 @@ class TestOauth(TestCase):
         s.setup()
 
         c = Client()
-        response = c.get('/oauth/login?code=123abc')
+        response = c.get('/oauth/login?code=123abc', follow=True)
 
         self.assertContains(response, "user_foo bar")
 
