@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import argparse
+import json
+
+parser = argparse.ArgumentParser()
+parser.add_argument('file')
+options = parser.parse_args()
+
+with open(options.file, 'r') as f:
+    data = json.load(f)
+
+for k, v in data.items():
+    if 'SECRET' in k:
+        data[k] = '********'
+
+print(json.dumps(data, indent=2))
